@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Data Structures & Algorithms</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+        header h1 {
+            font-size: 2.2em;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        header p {
+            color: #a0a0c0;
+            font-size: 1.1em;
+        }
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #a0a0c0;
+        }
+        .stats span { display: flex; align-items: center; gap: 6px; }
+        .section-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .section-btn {
+            padding: 14px 16px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            background: rgba(255,255,255,0.05);
+            color: #c0c0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .section-btn:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        .section-btn.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            color: #fff;
+        }
+        .quiz-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-number {
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .question-text {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            padding: 14px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+        .option:hover:not(.disabled) {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        .option.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+        }
+        .option.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+        .option.disabled { cursor: default; }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(102,126,234,0.4); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #c0c0e0;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .results {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .results h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            border: 6px solid;
+        }
+        .score-circle.great { border-color: #2ecc71; color: #2ecc71; }
+        .score-circle.good { border-color: #f39c12; color: #f39c12; }
+        .score-circle.poor { border-color: #e74c3c; color: #e74c3c; }
+        .results p { color: #a0a0c0; font-size: 1.1em; margin: 10px 0; }
+        #start-screen, #quiz-screen, #results-screen { display: none; }
+        #start-screen.active, #quiz-screen.active, #results-screen.active { display: block; }
+        .emoji { font-size: 1.3em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Data Structures & Algorithms Quiz</h1>
+        <p>Test your knowledge before the exam</p>
+    </header>
+
+    <div id="start-screen" class="active">
+        <div class="quiz-card">
+            <h2 style="color:#fff;margin-bottom:20px;text-align:center;">Choose a Section</h2>
+            <div class="section-selector">
+                <div class="section-btn" data-section="0">📘 Arrays, Lists, Complexity, Recursion</div>
+                <div class="section-btn" data-section="1">📗 Hash Tables, Queues, Heaps</div>
+                <div class="section-btn" data-section="2">📙 Sorting & Searching</div>
+                <div class="section-btn" data-section="3">📕 Graphs, BFS/DFS, Dijkstra, DP</div>
+                <div class="section-btn" data-section="all">🎯 All Sections (Random Mix)</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz-screen">
+        <div class="stats">
+            <span><span class="emoji">📝</span> Question <strong id="q-current">1</strong> / <strong id="q-total">10</strong></span>
+            <span><span class="emoji">✅</span> Score: <strong id="q-score">0</strong></span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        <div class="quiz-card">
+            <div class="question-number" id="q-section"></div>
+            <div class="question-text" id="q-text"></div>
+            <div class="options" id="q-options"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" id="btn-skip">Skip →</button>
+            <button class="btn btn-primary" id="btn-next" style="display:none;">Next →</button>
+        </div>
+    </div>
+
+    <div id="results-screen">
+        <div class="quiz-card results">
+            <h2>Quiz Complete!</h2>
+            <div class="score-circle" id="score-circle"></div>
+            <p id="result-text"></p>
+            <p id="result-detail"></p>
+            <div style="margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-primary" id="btn-retry">Try Again</button>
+                <button class="btn btn-secondary" id="btn-home">Back to Sections</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const quizData = [
+  { section: "Arrays, Lists, Complexity, Recursion", questions: [
+    {q:"What is the time complexity of inserting an element at position 0 in an ArrayList?",a:"O(N)",d:["O(1)","O(log N)","O(N²)"]},
+    {q:"What characteristic defines an array as a data structure?",a:"It stores related data items of the same type",d:["It stores items of different types","It uses linked nodes","It has dynamic size by default"]},
+    {q:"Which Big-O rule is used for sequential statements?",a:"Law of addition",d:["Law of multiplication","Law of logarithms","Law of subtraction"]},
+    {q:"What occurs when a program produces an excessively long chain of recursive calls?",a:"Stack overflow",d:["Heap overflow","Memory leak","Segmentation fault"]},
+    {q:"Which principle describes the behavior of a stack?",a:"Last-in/first-out",d:["First-in/first-out","Random access","Priority-based"]},
+    {q:"Where are array elements stored in memory?",a:"Contiguous memory locations",d:["Random memory locations","Linked nodes","Virtual memory pages"]},
+    {q:"Which type of linked list has nodes pointing both to the next and previous nodes?",a:"Doubly-linked list",d:["Singly-linked list","Circular linked list","Skip list"]},
+    {q:"Which situation typically leads to logarithmic complexity?",a:"Dividing the input size by a constant factor each iteration",d:["Iterating through all elements","Nested loops","Constant time operations"]},
+    {q:"Which step is necessary when designing a recursive algorithm?",a:"Determine the base case for the program",d:["Use a loop instead","Avoid function calls","Allocate extra memory"]},
+    {q:"Why must ArrayList<T> internally store elements as Object references?",a:"Because generics require a more abstract reference type",d:["Because arrays cannot store objects","For faster access","To save memory"]},
+    {q:"Why does ArrayList not increase its size on every insertion?",a:"Because it uses a capacity buffer",d:["Because it uses linked nodes","Because it has fixed size","Because it compresses data"]},
+    {q:"What must each node in a linked list contain?",a:"A data value and a reference to another node",d:["Only a data value","An index and a value","A key-value pair"]},
+    {q:"Which of the following is listed as a method for measuring algorithm efficiency?",a:"Counting the number of operations performed",d:["Measuring electricity usage","Counting lines of code","Measuring file size"]},
+    {q:"What is an Iterator used for in collections?",a:"Looping through elements of a collection",d:["Sorting elements","Deleting the collection","Creating new elements"]},
+    {q:"Which problem-solving idea is closely associated with recursion?",a:"Divide-and-Conquer",d:["Brute force","Greedy approach","Backtracking only"]},
+    {q:"What is the time complexity of increasing the size of an array?",a:"O(N)",d:["O(1)","O(log N)","O(N²)"]},
+    {q:"How is a specific element accessed in an array?",a:"By using an index value",d:["By searching sequentially","By using a key","By pointer arithmetic"]},
+    {q:"What is one advantage of ArrayList over LinkedList?",a:"Better memory usage and faster indexed access",d:["Faster insertion at head","Uses less code","Supports primitive types"]},
+    {q:"Which part of recursion handles problems simple enough to be solved directly?",a:"Base case",d:["Recursive case","Stack frame","Return statement"]},
+    {q:"What does O(1) represent in complexity analysis?",a:"Complexity independent of input size",d:["Linear complexity","Logarithmic complexity","Quadratic complexity"]},
+    {q:"What is recursion in programming?",a:"A technique where a function calls itself",d:["A loop structure","A sorting algorithm","A data structure"]},
+    {q:"In the expression 2n³ + 5n² + 0.15n + 7, what term determines the order of growth?",a:"n³",d:["5n²","0.15n","7"]},
+    {q:"What is a common pitfall of recursion if the base case is missing?",a:"Infinite recursion leading to stack overflow",d:["Faster execution","Memory optimization","Compiler error"]},
+    {q:"Which methods must be implemented in a custom Iterator?",a:"hasNext() and next()",d:["get() and set()","push() and pop()","add() and remove()"]},
+    {q:"What characterizes logarithmic complexity O(log n)?",a:"Each iteration halves the problem size",d:["Each iteration doubles the work","Linear scanning","Constant operations"]}
+  ]},
+  { section: "Hash Tables, Queues, Heaps", questions: [
+    {q:"Which scenario best illustrates collision handling by chaining?",a:"Storing multiple elements in linked lists at same index",d:["Rehashing all elements","Deleting colliding elements","Using open addressing"]},
+    {q:"Which property of hashing reduces search complexity compared to linear search?",a:"Key transformation to index positions",d:["Sorting the data first","Using binary search","Doubling the array"]},
+    {q:"What is the primary step performed when extracting the minimum element from a Min Heap?",a:"Replace the root with the last element",d:["Delete the last element","Swap two random elements","Rebuild the entire heap"]},
+    {q:"Which structure describes the internal organization of many hash tables using chaining?",a:"Array of linked lists",d:["Binary tree","Stack of arrays","Queue of nodes"]},
+    {q:"Which operation in a heap typically runs in O(1) time?",a:"Finding the root element",d:["Inserting an element","Deleting the root","Searching for a value"]},
+    {q:"What happens during rehashing?",a:"Elements are reinserted into a larger table",d:["Elements are deleted","The hash function is removed","The table shrinks"]},
+    {q:"Which method returns the front element but does not remove it?",a:"peek()",d:["poll()","remove()","pop()"]},
+    {q:"What is the time complexity of adding an element to the end of a linked list when the tail reference is stored?",a:"O(1)",d:["O(N)","O(log N)","O(N²)"]},
+    {q:"In a queue implementation, where are insertion and deletion operations typically performed?",a:"Insertion at back and deletion at front",d:["Both at front","Both at back","Insertion at front and deletion at back"]},
+    {q:"Which primary goal motivates the use of hashing in data structures?",a:"Allowing constant-time search in average case",d:["Sorting data efficiently","Reducing memory usage","Enabling recursion"]},
+    {q:"Which operation allows observation of the top element in a stack without removing it?",a:"peek()",d:["pop()","push()","top()"]},
+    {q:"Which requirement must key objects satisfy for correct behavior in hash tables?",a:"Implement hashCode() and equals()",d:["Implement toString()","Be primitive types","Be immutable strings"]},
+    {q:"Why is the multiplier 31 commonly used in Java string hashing?",a:"It distributes hash values effectively",d:["It is a power of 2","It is the smallest prime","It prevents overflow"]},
+    {q:"Which Big-O rule applies to nested loops or recursion?",a:"Law of multiplication",d:["Law of addition","Law of logarithms","Law of constants"]},
+    {q:"Why does hashing rely heavily on well-designed hash functions?",a:"They evenly distribute keys across buckets",d:["They sort the keys","They compress data","They encrypt values"]},
+    {q:"Why is choosing table size carefully important?",a:"To minimize collisions and empty buckets",d:["To save disk space","To speed up printing","To reduce code complexity"]},
+    {q:"During heap insertion, why is the element initially placed at the last position?",a:"To maintain the completeness of the binary tree",d:["To maintain sorted order","For faster access","To avoid duplicates"]},
+    {q:"Which operation is most affected when chains become excessively long?",a:"Search and retrieval",d:["Insertion only","Deletion only","Memory allocation"]},
+    {q:"Which statement best defines a tree data structure?",a:"A non-linear structure with hierarchical relationships",d:["A linear sequence of nodes","A circular buffer","A hash-based structure"]},
+    {q:"Which pair of queue methods differ primarily in how they handle failure cases?",a:"add() and offer()",d:["peek() and poll()","push() and pop()","get() and set()"]},
+    {q:"Which node in a tree has no parent?",a:"Root",d:["Leaf","Internal node","Sibling"]},
+    {q:"What aspect of algorithms is analyzed in terms of input size, averages, best, and worst cases?",a:"Runtime performance",d:["Memory layout","Code readability","Compilation time"]},
+    {q:"Which factor determines the number of buckets in a hash table?",a:"The size of the underlying array",d:["The number of keys","The hash function","The load factor alone"]},
+    {q:"Which structural property defines a heap?",a:"It must be a complete binary tree",d:["It must be sorted","It must be balanced BST","It must have unique values"]},
+    {q:"Which structure would be least suitable for modeling browser navigation history?",a:"Queue",d:["Stack","Doubly-linked list","Array"]},
+    {q:"Which outcome occurs if the number of buckets is too small relative to stored keys?",a:"Long chains and slower operations",d:["Faster lookups","Memory savings","Automatic resizing"]},
+    {q:"Which operation restores the heap property when a violation occurs at a specific index?",a:"heapify()",d:["sort()","rebalance()","rehash()"]},
+    {q:"Which design principle ensures that heap elements satisfy ordering relative to their parent nodes only?",a:"Heap-order property",d:["BST property","FIFO property","Hash property"]},
+    {q:"What determines linear complexity O(n)?",a:"The number of recursive calls or loop iterations grows with input size",d:["The algorithm uses constant space","The input is always sorted","The algorithm uses hashing"]},
+    {q:"What data structure is used to manage function calls during program execution?",a:"Stack",d:["Queue","Heap","Hash table"]},
+    {q:"Which factor may cause timer-based runtime measurements to vary?",a:"CPU, memory, and operating system differences",d:["The programming language only","The number of variables","The file name"]},
+    {q:"Which structure type best represents hierarchical relationships such as organizational charts?",a:"Non-linear structure",d:["Linear structure","Hash structure","Flat array"]},
+    {q:"What does the last node point to in a circular linked list?",a:"The first node",d:["Null","The middle node","Itself"]},
+    {q:"What does the expression sum(ASCII values) % table size represent?",a:"Hash function example",d:["Sorting algorithm","Search method","Encryption formula"]},
+    {q:"Why cannot primitive types be directly used with generics?",a:"Because generics only support reference types",d:["Because primitives are too large","Because of syntax errors","Because of security restrictions"]}
+  ]},
+  { section: "Sorting & Searching", questions: [
+    {q:"In Bubble Sort, what is the main reason the last unsorted position becomes correct after one full outer pass?",a:"Larger adjacent values gradually move to the right",d:["Smaller values are inserted at the beginning","The array is split in half","Random swaps fix the order"]},
+    {q:"Which description best matches the repeated phase of Heap Sort?",a:"Swap root, shrink active area, restore order",d:["Split, sort, merge","Compare adjacent, swap if needed","Pick minimum, place at front"]},
+    {q:"A student builds the heap correctly but does not reduce the active heap size after swapping. What is the likely issue?",a:"Sorted elements may be pulled back into later heap operations",d:["The heap becomes a BST","Memory overflow occurs","The algorithm terminates early"]},
+    {q:"Which pair of properties correctly matches the search methods?",a:"Linear: unsorted allowed; Binary: sorted required",d:["Linear: sorted required; Binary: unsorted allowed","Both require sorted data","Both work on unsorted data"]},
+    {q:"In Binary Search, the middle value is greater than the target. Which part can be ignored in an ascending array?",a:"The upper half",d:["The lower half","Both halves","Neither half"]},
+    {q:"Which case most naturally leads Quick Sort toward its worst-case behavior?",a:"Pivot is repeatedly an extreme value",d:["Pivot is always the median","Array is random","Array has duplicates"]},
+    {q:"Which statement best distinguishes Heap Sort from Merge Sort?",a:"It maintains a priority-like tree structure",d:["It uses extra arrays","It is not comparison-based","It only works on integers"]},
+    {q:"Which feature is most important when deciding whether Binary Search can be applied directly?",a:"The array is already sorted",d:["The array is small","The array has unique values","The array uses integers"]},
+    {q:"An implementation of Bubble Sort compares adjacent elements and swaps only when wrong order. Which input causes many comparisons but no swaps?",a:"A list already sorted in the target order",d:["A reverse-sorted list","A random list","An empty list"]},
+    {q:"Which conclusion best reflects the lecture's overall message about searching choices?",a:"The best method depends on order, preprocessing cost, and number of searches",d:["Binary search is always best","Linear search should never be used","Hashing replaces all other methods"]},
+    {q:"During an ascending Bubble Sort pass, the pair [7, 3] is encountered. What local action is consistent with the algorithm?",a:"Swap the two adjacent values",d:["Skip the pair","Remove the larger value","Insert a new element"]},
+    {q:"Why is Binary Search usually faster than Linear Search on large sorted arrays?",a:"It removes about half of the remaining candidates each step",d:["It uses more memory","It sorts while searching","It checks every element twice"]},
+    {q:"After a correct Quick Sort partition around a pivot, what should be true?",a:"Values are separated relative to the pivot",d:["All values are sorted","The pivot is at index 0","Duplicates are removed"]},
+    {q:"Which stopping idea is shared by Merge Sort and Quick Sort?",a:"Continue until subproblems become atomic",d:["Stop when array is sorted","Stop after N passes","Stop when pivot is found"]},
+    {q:"Which condition is enough for a sequence to be considered sorted in Merge Sort?",a:"Its length is exactly one",d:["Its length is zero","It has no duplicates","It is already partitioned"]},
+    {q:"Which mistake would most directly break the merge step?",a:"Forgetting to copy remaining values from one side",d:["Using too much memory","Choosing wrong pivot","Skipping the base case"]},
+    {q:"For repeated membership queries on changing data, what is a reasonable advantage of hashing over Binary Search?",a:"It can avoid maintaining global sorted order",d:["It uses less memory","It is always O(1)","It sorts automatically"]},
+    {q:"What makes an algorithm a divide-and-conquer algorithm?",a:"It reduces a problem to similar smaller problems",d:["It uses hashing","It runs in O(1)","It avoids recursion"]},
+    {q:"Which statement best contrasts Merge Sort and Quick Sort?",a:"Merge Sort organizes work through merging; Quick Sort through partitioning",d:["Both use merging","Both use partitioning","Merge Sort is always faster"]},
+    {q:"Which situation most strongly favors Binary Search?",a:"The data is sorted and many lookups are needed",d:["The data changes frequently","The data is unsorted","Only one lookup is needed"]},
+    {q:"What causes hash table search to approach O(N) in the worst case?",a:"Too many values collide into the same place",d:["The table is too large","The hash function is perfect","All buckets are empty"]},
+    {q:"Why can choosing the last element as pivot be risky on already sorted input?",a:"The pivot may repeatedly create very uneven partitions",d:["It causes stack overflow","It skips elements","It doubles memory usage"]},
+    {q:"A hash table has a poor hash method that maps many keys to one chain. What is the likely result?",a:"Lookups may require scanning much of that chain",d:["Instant lookups","Memory savings","Automatic rebalancing"]},
+    {q:"Why does Merge Sort continue dividing until subarrays have one element?",a:"Single-element arrays can be treated as already ordered",d:["To use more memory","To avoid comparisons","To find the pivot"]},
+    {q:"Which comparison between Bubble Sort and Merge Sort is most accurate?",a:"One scans locally; the other splits and recombines",d:["Both use partitioning","Both are O(N)","Both require extra space"]}
+  ]},
+  { section: "Graphs, BFS/DFS, Dijkstra, DP", questions: [
+    {q:"In the Yandex taxi example, what might an edge weight represent?",a:"Distance, approximate time, average speed, or a combination of these",d:["Number of passengers","Color of the road","Name of the driver"]},
+    {q:"Which combination of actions best matches the steps to design DP?",a:"Define subproblems, recursively define the optimal value, and solve the base case",d:["Sort, search, output","Hash, chain, rehash","Push, pop, peek"]},
+    {q:"What condition must be satisfied before creating an edge between A and B?",a:"Both vertices A and B must exist",d:["A must be less than B","The graph must be sorted","The edge must have weight 0"]},
+    {q:"What is the general idea of dynamic programming?",a:"Solving complex problems by breaking them down into simpler subproblems",d:["Using brute force on all inputs","Sorting before processing","Avoiding recursion entirely"]},
+    {q:"How is the adjacency-list representation of a graph described?",a:"An array of n adjacency lists",d:["A single linked list","A 2D boolean matrix only","A stack of edges"]},
+    {q:"How does dynamic programming relate to inefficient recursion?",a:"It is a way to optimize recursion by avoiding repeated work",d:["It replaces recursion with loops only","It makes recursion slower","It removes base cases"]},
+    {q:"Who determines how weights are calculated in an edge-weighted graph model?",a:"The graph designer",d:["The compiler","The operating system","The user at runtime"]},
+    {q:"Which graph is called a tree?",a:"An acyclic connected graph",d:["A graph with cycles","A disconnected graph","A complete graph"]},
+    {q:"How are divide-and-conquer algorithms characterized in terms of direction?",a:"They can be thought of as top-down algorithms",d:["They are bottom-up","They are bidirectional","They have no direction"]},
+    {q:"How does BFS process nodes from the current level?",a:"It visits all unvisited neighbors of each node in the order the level nodes were visited",d:["It goes as deep as possible first","It picks random neighbors","It skips alternate levels"]},
+    {q:"How is the length of a path or cycle measured?",a:"By the number of edges",d:["By the number of vertices","By the total weight","By the depth"]},
+    {q:"Which data structure is used when implementing BFS?",a:"Queue",d:["Stack","Heap","Hash table"]},
+    {q:"Why is graph search introduced as an important topic?",a:"Because it helps solve path, connectivity, and spanning tree problems",d:["Because it sorts data","Because it compresses graphs","Because it hashes vertices"]},
+    {q:"What is given as an example of an undirected graph?",a:"A communication network where vertices are cities and edges are communication links",d:["A one-way street map","A family tree","A sorted array"]},
+    {q:"What does the formula-like summary suggest about dynamic programming?",a:"DP combines a recursive solution with memoization or a bottom-up approach",d:["DP only uses iteration","DP avoids storing results","DP is the same as greedy"]},
+    {q:"What property must the shortest path from vertex A to vertex E have in an edge-weighted digraph?",a:"No other directed path from A to E has a lower weight",d:["It has the fewest edges","It visits all vertices","It avoids cycles"]},
+    {q:"Why does Dijkstra's algorithm require positive weights?",a:"Because edge weights are added when calculating paths",d:["Because negative weights cause overflow","Because the queue cannot handle negatives","Because vertices must be positive"]},
+    {q:"What does an edge weight represent in the driving-distance example?",a:"Driving distance between cities",d:["Speed limit","Number of lanes","Traffic density"]},
+    {q:"What is the shortest path problem concerned with?",a:"Finding the lowest-cost way to get from one vertex to another",d:["Finding all paths","Counting vertices","Sorting edges"]},
+    {q:"How is dynamic programming characterized in terms of direction?",a:"It can be thought of as a bottom-up approach",d:["It is always top-down","It has no direction","It is random"]},
+    {q:"What does A(i, j) = 1 mean in an adjacency matrix?",a:"There is an edge from i to j",d:["There is no edge","The weight is 1","Vertex i equals vertex j"]},
+    {q:"When is dynamic programming especially applicable?",a:"When subproblems are not independent",d:["When subproblems are independent","When there is no recursion","When data is sorted"]},
+    {q:"How is a path in a graph defined?",a:"A sequence of vertices connected by edges",d:["A single edge","A vertex with no neighbors","A cycle"]},
+    {q:"What problem does Dijkstra's algorithm solve?",a:"The single-source shortest-paths problem in edge-weighted digraphs",d:["All-pairs shortest paths","Minimum spanning tree","Graph coloring"]},
+    {q:"What is a cycle according to graph theory?",a:"A path with at least one edge whose first and last vertices are the same",d:["A path with no edges","A tree","An isolated vertex"]},
+    {q:"What does DFS do when the current node has an unvisited neighbor?",a:"It visits that neighbor and makes it the new current node",d:["It adds all neighbors to a queue","It backtracks immediately","It marks the neighbor as visited without going there"]},
+    {q:"Which comparison between divide and conquer and dynamic programming is correct?",a:"Divide and conquer has independent subproblems, while DP has subproblems that are not independent",d:["Both have independent subproblems","Both have overlapping subproblems","DP never uses recursion"]},
+    {q:"What is the main approach used by dynamic programming to avoid repeated subproblem computation?",a:"Store the result of a subproblem the first time it is computed",d:["Recompute every time","Use random sampling","Sort subproblems first"]},
+    {q:"Why might dynamic programming initially look similar to divide and conquer?",a:"Both involve breaking a problem into smaller subproblems",d:["Both use hashing","Both are O(1)","Both avoid recursion"]},
+    {q:"What additional step is needed when adding an edge in an undirected graph?",a:"Add A to the adjacency list of B so the connection works both ways",d:["Remove the old edge","Sort the adjacency list","Create a new vertex"]},
+    {q:"What distinguishes a directed edge from an undirected edge?",a:"A directed edge has an orientation from one vertex to another",d:["A directed edge has no weight","An undirected edge cannot exist in a graph","They are the same thing"]},
+    {q:"What must be done to create an edge from vertex A to vertex B?",a:"Add vertex B to the adjacency list of vertex A",d:["Delete vertex A","Sort the graph","Create a new graph"]},
+    {q:"What is the main goal of both DFS and BFS in an undirected graph?",a:"To visit every node systematically exactly once",d:["To sort the nodes","To find the shortest path only","To delete visited nodes"]},
+    {q:"Which type of graph is used to model a street map with one-way streets?",a:"Directed graph",d:["Undirected graph","Weighted tree","Complete graph"]},
+    {q:"What is memoization?",a:"Saving computed results in a table for later use",d:["Memorizing code syntax","Deleting old results","Sorting results alphabetically"]},
+    {q:"What is the first step of BFS?",a:"Select an unvisited node, visit it, and make it the root of a BFS tree",d:["Visit the deepest node first","Sort all nodes","Remove all edges"]},
+    {q:"For what type of problems is dynamic programming generally used?",a:"Optimization problems",d:["Sorting problems only","Display problems","Compilation problems"]},
+    {q:"What is an adjacency list for vertex i?",a:"A linear list of vertices adjacent from vertex i",d:["A matrix row","A stack of edges","A queue of weights"]},
+    {q:"How is the weight of a path calculated?",a:"By summing the weights of the path's edges",d:["By counting vertices","By multiplying edge weights","By finding the maximum edge"]},
+    {q:"Why is computing fib(5) inefficient using plain recursion?",a:"Because fib(2) may be computed multiple times",d:["Because fib(5) is too large","Because recursion is always slow","Because there is no base case"]}
+  ]}
+];
+
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultsScreen = document.getElementById('results-screen');
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function generateOptions(q) {
+    const options = shuffle([q.a, ...q.d]);
+    return options;
+}
+
+function showScreen(screen) {
+    [startScreen, quizScreen, resultsScreen].forEach(s => s.classList.remove('active'));
+    screen.classList.add('active');
+}
+
+function startQuiz(sectionIndex) {
+    if (sectionIndex === 'all') {
+        let all = [];
+        quizData.forEach(s => {
+            s.questions.forEach(q => all.push({...q, section: s.section}));
+        });
+        currentQuestions = shuffle(all).slice(0, 30);
+    } else {
+        const sec = quizData[sectionIndex];
+        currentQuestions = shuffle(sec.questions.map(q => ({...q, section: sec.section})));
+    }
+    currentIndex = 0;
+    score = 0;
+    answered = false;
+    showScreen(quizScreen);
+    renderQuestion();
+}
+
+function renderQuestion() {
+    answered = false;
+    const q = currentQuestions[currentIndex];
+    document.getElementById('q-current').textContent = currentIndex + 1;
+    document.getElementById('q-total').textContent = currentQuestions.length;
+    document.getElementById('q-score').textContent = score;
+    document.getElementById('q-section').textContent = q.section;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('progress').style.width = ((currentIndex) / currentQuestions.length * 100) + '%';
+    document.getElementById('btn-next').style.display = 'none';
+    document.getElementById('btn-skip').style.display = '';
+
+    const optionsEl = document.getElementById('q-options');
+    optionsEl.innerHTML = '';
+    const options = generateOptions(q);
+    options.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.textContent = opt;
+        div.addEventListener('click', () => selectAnswer(div, opt, q.a));
+        optionsEl.appendChild(div);
+    });
+}
+
+function selectAnswer(el, selected, correct) {
+    if (answered) return;
+    answered = true;
+    const options = document.querySelectorAll('.option');
+    options.forEach(o => {
+        o.classList.add('disabled');
+        if (o.textContent === correct) o.classList.add('correct');
+    });
+    if (selected !== correct) {
+        el.classList.add('wrong');
+    } else {
+        score++;
+        document.getElementById('q-score').textContent = score;
+    }
+    document.getElementById('btn-skip').style.display = 'none';
+    document.getElementById('btn-next').style.display = '';
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex >= currentQuestions.length) {
+        showResults();
+    } else {
+        renderQuestion();
+    }
+}
+
+function showResults() {
+    showScreen(resultsScreen);
+    const pct = Math.round((score / currentQuestions.length) * 100);
+    const circle = document.getElementById('score-circle');
+    circle.textContent = pct + '%';
+    circle.className = 'score-circle ' + (pct >= 80 ? 'great' : pct >= 50 ? 'good' : 'poor');
+    document.getElementById('result-text').textContent = score + ' out of ' + currentQuestions.length + ' correct';
+    const msg = pct >= 90 ? '🎉 Excellent! You\'re well prepared!' :
+                pct >= 70 ? '👍 Good job! Review a few topics and you\'ll ace it.' :
+                pct >= 50 ? '📖 Not bad, but more practice would help.' :
+                '💪 Keep studying! You\'ll get there.';
+    document.getElementById('result-detail').textContent = msg;
+    document.getElementById('progress').style.width = '100%';
+}
+
+// Event listeners
+document.querySelectorAll('.section-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const sec = btn.dataset.section;
+        startQuiz(sec === 'all' ? 'all' : parseInt(sec));
+    });
+});
+
+document.getElementById('btn-next').addEventListener('click', nextQuestion);
+document.getElementById('btn-skip').addEventListener('click', () => {
+    if (!answered) {
+        answered = true;
+        currentIndex++;
+        if (currentIndex >= currentQuestions.length) {
+            showResults();
+        } else {
+            renderQuestion();
+        }
+    }
+});
+document.getElementById('btn-retry').addEventListener('click', () => {
+    const sec = currentQuestions[0] ? currentQuestions[0].section : null;
+    let idx = 'all';
+    quizData.forEach((s, i) => { if (s.section === sec) idx = i; });
+    startQuiz(idx);
+});
+document.getElementById('btn-home').addEventListener('click', () => showScreen(startScreen));
+</script>
+</body>
+</html>
