@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подготовка к экзамену: Структуры данных и алгоритмы</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2980b9;
+            margin: 20px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+        h2 {
+            color: #27ae60;
+            margin: 25px 0 15px;
+            padding: 10px;
+            background: #ecf0f1;
+            border-left: 4px solid #27ae60;
+            border-radius: 0 4px 4px 0;
+        }
+        .question {
+            margin: 15px 0;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-left: 3px solid #3498db;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .answer {
+            color: #27ae60;
+            font-weight: 500;
+            padding-left: 10px;
+            border-left: 2px dashed #27ae60;
+        }
+        .section { margin-bottom: 30px; }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #bdc3c7;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        @media print {
+            body { padding: 10px; }
+            .question { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Подготовка к экзамену</h1>
+    <p style="text-align:center;margin-bottom:25px;"><strong>Структуры данных и алгоритмы</strong><br>Список вопросов с правильными ответами</p>
+
+    <!-- Часть 1 -->
+    <div class="section">
+        <h2>📘 Часть 1: Массивы, списки, сложность, рекурсия</h2>
+        
+        <div class="question"><div class="question-text">1. What is the time complexity of inserting an element at position 0 in an ArrayList?</div><div class="answer">→ O(N)</div></div>
+        <div class="question"><div class="question-text">2. What characteristic defines an array as a data structure?</div><div class="answer">→ It stores related data items of the same type</div></div>
+        <div class="question"><div class="question-text">3. Which Big-O rule is used for sequential statements?</div><div class="answer">→ Law of addition</div></div>
+        <div class="question"><div class="question-text">4. What occurs when a program produces an excessively long chain of recursive calls?</div><div class="answer">→ Stack overflow</div></div>
+        <div class="question"><div class="question-text">5. Which principle describes the behavior of a stack?</div><div class="answer">→ Last-in/first-out</div></div>
+        <div class="question"><div class="question-text">6. Where are array elements stored in memory?</div><div class="answer">→ Contiguous memory locations</div></div>
+        <div class="question"><div class="question-text">7. Which type of linked list has nodes pointing both to the next and previous nodes?</div><div class="answer">→ Doubly-linked list</div></div>
+        <div class="question"><div class="question-text">8. Which situation typically leads to logarithmic complexity?</div><div class="answer">→ Dividing the input size by a constant factor each iteration</div></div>
+        <div class="question"><div class="question-text">9. Which step is necessary when designing a recursive algorithm?</div><div class="answer">→ Determine the base case for the program</div></div>
+        <div class="question"><div class="question-text">10. Why must ArrayList&lt;T&gt; internally store elements as Object references?</div><div class="answer">→ Because generics require a more abstract reference type</div></div>
+        <div class="question"><div class="question-text">11. Why does ArrayList not increase its size on every insertion?</div><div class="answer">→ Because it uses a capacity buffer</div></div>
+        <div class="question"><div class="question-text">12. What must each node in a linked list contain?</div><div class="answer">→ A data value and a reference to another node</div></div>
+        <div class="question"><div class="question-text">13. Which of the following is listed as a method for measuring algorithm efficiency?</div><div class="answer">→ Counting the number of operations performed</div></div>
+        <div class="question"><div class="question-text">14. What is an Iterator used for in collections?</div><div class="answer">→ Looping through elements of a collection</div></div>
+        <div class="question"><div class="question-text">15. Which problem-solving idea is closely associated with recursion?</div><div class="answer">→ Divide-and-Conquer</div></div>
+        <div class="question"><div class="question-text">16. What is the time complexity of increasing the size of an array?</div><div class="answer">→ O(N)</div></div>
+        <div class="question"><div class="question-text">17. How is a specific element accessed in an array?</div><div class="answer">→ By using an index value</div></div>
+        <div class="question"><div class="question-text">18. What is one advantage of ArrayList over LinkedList mentioned in the lecture 3?</div><div class="answer">→ Better memory usage and faster indexed access</div></div>
+        <div class="question"><div class="question-text">19. Which part of recursion handles problems simple enough to be solved directly?</div><div class="answer">→ Base case</div></div>
+        <div class="question"><div class="question-text">20. What does O(1) represent in complexity analysis?</div><div class="answer">→ Complexity independent of input size</div></div>
+        <div class="question"><div class="question-text">21. What is recursion in programming?</div><div class="answer">→ A technique where a function calls itself</div></div>
+        <div class="question"><div class="question-text">22. In the expression 2n³ + 5n² + 0.15n + 7, what term determines the order of growth?</div><div class="answer">→ n³</div></div>
+        <div class="question"><div class="question-text">23. What is a common pitfall of recursion if the base case is missing?</div><div class="answer">→ Infinite recursion leading to stack overflow</div></div>
+        <div class="question"><div class="question-text">24. Which methods must be implemented in a custom Iterator?</div><div class="answer">→ hasNext() and next()</div></div>
+        <div class="question"><div class="question-text">25. What characterizes logarithmic complexity O(log n)?</div><div class="answer">→ Each iteration halves the problem size</div></div>
+    </div>
+
+    <!-- Часть 2 -->
+    <div class="section">
+        <h2>📗 Часть 2: Хеш-таблицы, очереди, кучи</h2>
+        
+        <div class="question"><div class="question-text">1. Which scenario best illustrates collision handling by chaining?</div><div class="answer">→ Storing multiple elements in linked lists at same index</div></div>
+        <div class="question"><div class="question-text">2. Which property of hashing reduces search complexity compared to linear search?</div><div class="answer">→ Key transformation to index positions</div></div>
+        <div class="question"><div class="question-text">3. What is the primary step performed when extracting the minimum element from a Min Heap?</div><div class="answer">→ Replace the root with the last element</div></div>
+        <div class="question"><div class="question-text">4. Which structure describes the internal organization of many hash tables using chaining?</div><div class="answer">→ Array of linked lists</div></div>
+        <div class="question"><div class="question-text">5. Which operation in a heap typically runs in O(1) time?</div><div class="answer">→ Finding the root element</div></div>
+        <div class="question"><div class="question-text">6. What happens during rehashing?</div><div class="answer">→ Elements are reinserted into a larger table</div></div>
+        <div class="question"><div class="question-text">7. Which method returns the front element but does not remove it?</div><div class="answer">→ peek()</div></div>
+        <div class="question"><div class="question-text">8. What is the first step inside the recursive case of solving a problem?</div><div class="answer">→ Divide the problem into smaller parts</div></div>
+        <div class="question"><div class="question-text">9. What is the time complexity of adding an element to the end of a linked list when the tail reference is stored?</div><div class="answer">→ O(1)</div></div>
+        <div class="question"><div class="question-text">10. In a queue implementation, where are insertion and deletion operations typically performed?</div><div class="answer">→ Insertion at back and deletion at front</div></div>
+        <div class="question"><div class="question-text">11. What does the y-axis represent in an order-of-growth graph?</div><div class="answer">→ Runtime of the algorithm</div></div>
+        <div class="question"><div class="question-text">12. Which primary goal motivates the use of hashing in data structures?</div><div class="answer">→ Allowing constant-time search in average case</div></div>
+        <div class="question"><div class="question-text">13. Which operation allows observation of the top element in a stack without removing it?</div><div class="answer">→ peek()</div></div>
+        <div class="question"><div class="question-text">14. Which requirement must key objects satisfy for correct behavior in hash tables?</div><div class="answer">→ Implement hashCode() and equals()</div></div>
+        <div class="question"><div class="question-text">15. Why is the multiplier 31 commonly used in Java string hashing?</div><div class="answer">→ It distributes hash values effectively</div></div>
+        <div class="question"><div class="question-text">16. Which Big-O rule applies to nested loops or recursion?</div><div class="answer">→ Law of multiplication</div></div>
+        <div class="question"><div class="question-text">17. Why does hashing rely heavily on well-designed hash functions?</div><div class="answer">→ They evenly distribute keys across buckets</div></div>
+        <div class="question"><div class="question-text">18. Why is choosing table size carefully important?</div><div class="answer">→ To minimize collisions and empty buckets</div></div>
+        <div class="question"><div class="question-text">19. During heap insertion, why is the element initially placed at the last position?</div><div class="answer">→ To maintain the completeness of the binary tree</div></div>
+        <div class="question"><div class="question-text">20. Which operation is most affected when chains become excessively long?</div><div class="answer">→ Search and retrieval</div></div>
+        <div class="question"><div class="question-text">21. Which statement best defines a tree data structure?</div><div class="answer">→ A non-linear structure with hierarchical relationships</div></div>
+        <div class="question"><div class="question-text">22. Which pair of queue methods differ primarily in how they handle failure cases?</div><div class="answer">→ add() and offer()</div></div>
+        <div class="question"><div class="question-text">23. Which node in a tree has no parent?</div><div class="answer">→ Root</div></div>
+        <div class="question"><div class="question-text">24. What aspect of algorithms is analyzed in terms of input size, averages, best, and worst cases?</div><div class="answer">→ Runtime performance</div></div>
+        <div class="question"><div class="question-text">25. Which factor determines the number of buckets in a hash table?</div><div class="answer">→ The size of the underlying array</div></div>
+        <div class="question"><div class="question-text">26. Which structural property defines a heap?</div><div class="answer">→ It must be a complete binary tree</div></div>
+        <div class="question"><div class="question-text">27. Which structure would be least suitable for modeling browser navigation history?</div><div class="answer">→ Queue</div></div>
+        <div class="question"><div class="question-text">28. Which outcome occurs if the number of buckets is too small relative to stored keys?</div><div class="answer">→ Long chains and slower operations</div></div>
+        <div class="question"><div class="question-text">29. Which operation restores the heap property when a violation occurs at a specific index?</div><div class="answer">→ heapify()</div></div>
+        <div class="question"><div class="question-text">30. Which design principle ensures that heap elements satisfy ordering relative to their parent nodes only?</div><div class="answer">→ Heap-order property</div></div>
+        <div class="question"><div class="question-text">31. What determines linear complexity O(n)?</div><div class="answer">→ The number of recursive calls or loop iterations grows with input size</div></div>
+        <div class="question"><div class="question-text">32. What data structure is used to manage function calls during program execution?</div><div class="answer">→ Stack</div></div>
+        <div class="question"><div class="question-text">33. Which factor may cause timer-based runtime measurements to vary?</div><div class="answer">→ CPU, memory, and operating system differences</div></div>
+        <div class="question"><div class="question-text">34. Which structure type best represents hierarchical relationships such as organizational charts?</div><div class="answer">→ Non-linear structure</div></div>
+        <div class="question"><div class="question-text">35. What does the last node point to in a circular linked list?</div><div class="answer">→ The first node</div></div>
+        <div class="question"><div class="question-text">36. Which type of linked list has nodes pointing both to the next and previous nodes?</div><div class="answer">→ Doubly-linked list</div></div>
+        <div class="question"><div class="question-text">37. What is recursion in programming?</div><div class="answer">→ A technique where a function calls itself</div></div>
+        <div class="question"><div class="question-text">38. What occurs when a program produces an excessively long chain of recursive calls?</div><div class="answer">→ Stack overflow</div></div>
+        <div class="question"><div class="question-text">39. What does the expression sum(ASCII values) % table size represent?</div><div class="answer">→ Hash function example</div></div>
+        <div class="question"><div class="question-text">40. Why cannot primitive types be directly used with generics in the lecture 3 example?</div><div class="answer">→ Because generics only support reference types</div></div>
+    </div>
+
+    <!-- Часть 3 -->
+    <div class="section">
+        <h2>📙 Часть 3: Сортировка и поиск</h2>
+        
+        <div class="question"><div class="question-text">1. In the basic Bubble Sort shown in the lecture, what is the main reason the last unsorted position becomes correct after one full outer pass?</div><div class="answer">→ Larger adjacent values gradually move to the right</div></div>
+        <div class="question"><div class="question-text">2. Which description best matches the repeated phase of Heap Sort?</div><div class="answer">→ Swap root, shrink active area, restore order</div></div>
+        <div class="question"><div class="question-text">3. A student builds the heap correctly but does not reduce the active heap size after swapping the root with the last element. What is the likely issue?</div><div class="answer">→ Sorted elements may be pulled back into later heap operations</div></div>
+        <div class="question"><div class="question-text">4. Which pair of properties correctly matches the search methods in the lecture?</div><div class="answer">→ Linear: unsorted allowed; Binary: sorted required</div></div>
+        <div class="question"><div class="question-text">5. In Binary Search, the middle value is greater than the target. Which part can be ignored in an ascending array?</div><div class="answer">→ The upper half</div></div>
+        <div class="question"><div class="question-text">6. Which case most naturally leads Quick Sort toward its worst-case behavior?</div><div class="answer">→ Pivot is repeatedly an extreme value</div></div>
+        <div class="question"><div class="question-text">7. Which statement best distinguishes Heap Sort from Merge Sort in terms of how it organizes work?</div><div class="answer">→ It maintains a priority-like tree structure</div></div>
+        <div class="question"><div class="question-text">8. Which feature is most important when deciding whether Binary Search can be applied directly?</div><div class="answer">→ The array is already sorted</div></div>
+        <div class="question"><div class="question-text">9. An implementation of Bubble Sort compares adjacent elements and swaps only when they are in the wrong order. Which input would cause many comparisons but no swaps?</div><div class="answer">→ A list already sorted in the target order</div></div>
+        <div class="question"><div class="question-text">10. Which conclusion best reflects the lecture's overall message about searching choices?</div><div class="answer">→ The best method depends on order, preprocessing cost, and number of searches</div></div>
+        <div class="question"><div class="question-text">11. During an ascending Bubble Sort pass, the pair [7, 3] is encountered. What local action is consistent with the algorithm?</div><div class="answer">→ Swap the two adjacent values</div></div>
+        <div class="question"><div class="question-text">12. Why is Binary Search usually faster than Linear Search on large sorted arrays?</div><div class="answer">→ It removes about half of the remaining candidates each step</div></div>
+        <div class="question"><div class="question-text">13. After a correct Quick Sort partition around a pivot, what should be true?</div><div class="answer">→ Values are separated relative to the pivot</div></div>
+        <div class="question"><div class="question-text">14. Which stopping idea is shared by Merge Sort and Quick Sort in the lecture?</div><div class="answer">→ Continue until subproblems become atomic</div></div>
+        <div class="question"><div class="question-text">15. Which condition is enough for a sequence to be considered sorted in the Merge Sort explanation?</div><div class="answer">→ Its length is exactly one</div></div>
+        <div class="question"><div class="question-text">16. Which mistake would most directly break the merge step?</div><div class="answer">→ Forgetting to copy remaining values from one side</div></div>
+        <div class="question"><div class="question-text">17. For repeated membership queries on changing data, what is a reasonable advantage of hashing over Binary Search on an array?</div><div class="answer">→ It can avoid maintaining global sorted order</div></div>
+        <div class="question"><div class="question-text">18. What makes an algorithm a divide-and-conquer algorithm?</div><div class="answer">→ It reduces a problem to similar smaller problems</div></div>
+        <div class="question"><div class="question-text">19. Which statement best contrasts Merge Sort and Quick Sort?</div><div class="answer">→ Merge Sort organizes work through merging; Quick Sort through partitioning</div></div>
+        <div class="question"><div class="question-text">20. Which situation most strongly favors Binary Search?</div><div class="answer">→ The data is sorted and many lookups are needed</div></div>
+        <div class="question"><div class="question-text">21. What causes hash table search to approach O(N) in the worst case?</div><div class="answer">→ Too many values collide into the same place</div></div>
+        <div class="question"><div class="question-text">22. Why can choosing the last element as pivot be risky on already sorted input?</div><div class="answer">→ The pivot may repeatedly create very uneven partitions</div></div>
+        <div class="question"><div class="question-text">23. A hash table has a poor hash method that maps many different keys to one chain. What is the likely result?</div><div class="answer">→ Lookups may require scanning much of that chain</div></div>
+        <div class="question"><div class="question-text">24. Why does Merge Sort continue dividing until subarrays have one element?</div><div class="answer">→ Single-element arrays can be treated as already ordered</div></div>
+        <div class="question"><div class="question-text">25. Which comparison between Bubble Sort and Merge Sort is most accurate?</div><div class="answer">→ One scans locally; the other splits and recombines</div></div>
+    </div>
+
+    <!-- Часть 4 -->
+    <div class="section">
+        <h2>📕 Часть 4: Графы, BFS/DFS, Dijkstra, Динамическое программирование</h2>
+        
+        <div class="question"><div class="question-text">1. In the Yandex taxi example from the lecture 9, what might an edge weight represent?</div><div class="answer">→ Distance, approximate time, average speed, or a combination of these</div></div>
+        <div class="question"><div class="question-text">2. Which combination of actions best matches the 10 lecture's steps to design DP?</div><div class="answer">→ Define subproblems, recursively define the optimal value, and solve the base case</div></div>
+        <div class="question"><div class="question-text">3. What condition must be satisfied before creating an edge between A and B?</div><div class="answer">→ Both vertices A and B must exist</div></div>
+        <div class="question"><div class="question-text">4. What is the general idea of dynamic programming according to the lecture 10?</div><div class="answer">→ Solving complex problems by breaking them down into simpler subproblems</div></div>
+        <div class="question"><div class="question-text">5. How does the lecture 8 describe the overall adjacency-list representation of a graph?</div><div class="answer">→ An array of n adjacency lists</div></div>
+        <div class="question"><div class="question-text">6. How does the lecture 10 describe dynamic programming in relation to inefficient recursion?</div><div class="answer">→ It is a way to optimize recursion by avoiding repeated work</div></div>
+        <div class="question"><div class="question-text">7. Who determines how weights are calculated in an edge-weighted graph model?</div><div class="answer">→ The graph designer</div></div>
+        <div class="question"><div class="question-text">8. Which graph is called a tree in the lecture 8?</div><div class="answer">→ An acyclic connected graph</div></div>
+        <div class="question"><div class="question-text">9. How does the lecture 10 characterize divide-and-conquer algorithms in terms of direction?</div><div class="answer">→ They can be thought of as top-down algorithms</div></div>
+        <div class="question"><div class="question-text">10. How does BFS process nodes from the current level?</div><div class="answer">→ It visits all unvisited neighbors of each node in the order the level nodes were visited</div></div>
+        <div class="question"><div class="question-text">11. How is the length of a path or cycle measured?</div><div class="answer">→ By the number of edges</div></div>
+        <div class="question"><div class="question-text">12. Which data structure is used when implementing BFS?</div><div class="answer">→ Queue</div></div>
+        <div class="question"><div class="question-text">13. Why does the lecture 9 introduce graph search as an important topic?</div><div class="answer">→ Because it helps solve path, connectivity, and spanning tree problems</div></div>
+        <div class="question"><div class="question-text">14. Which application is given in the lecture 8 as an example of an undirected graph?</div><div class="answer">→ A communication network where vertices are cities and edges are communication links</div></div>
+        <div class="question"><div class="question-text">15. What does the 10 lecture's formula-like summary suggest about dynamic programming?</div><div class="answer">→ DP combines a recursive solution with memoization or a bottom-up approach</div></div>
+        <div class="question"><div class="question-text">16. What property must the shortest path from vertex A to vertex E have in an edge-weighted digraph?</div><div class="answer">→ No other directed path from A to E has a lower weight</div></div>
+        <div class="question"><div class="question-text">17. Why does the lecture 9 say Dijkstra's algorithm requires positive weights?</div><div class="answer">→ Because edge weights are added when calculating paths</div></div>
+        <div class="question"><div class="question-text">18. What does an edge weight represent in the 8 lecture's driving-distance example?</div><div class="answer">→ Driving distance between cities</div></div>
+        <div class="question"><div class="question-text">19. What is the shortest path problem concerned with?</div><div class="answer">→ Finding the lowest-cost way to get from one vertex to another</div></div>
+        <div class="question"><div class="question-text">20. How does the lecture 10 characterize dynamic programming in terms of direction?</div><div class="answer">→ It can be thought of as a bottom-up approach</div></div>
+        <div class="question"><div class="question-text">21. What does A(i, j) = 1 mean in an adjacency matrix?</div><div class="answer">→ There is an edge from i to j</div></div>
+        <div class="question"><div class="question-text">22. When is dynamic programming especially applicable?</div><div class="answer">→ When subproblems are not independent</div></div>
+        <div class="question"><div class="question-text">23. How is a path in a graph defined in the lecture 8?</div><div class="answer">→ A sequence of vertices connected by edges</div></div>
+        <div class="question"><div class="question-text">24. What problem does Dijkstra's algorithm solve according to the lecture 9?</div><div class="answer">→ The single-source shortest-paths problem in edge-weighted digraphs</div></div>
+        <div class="question"><div class="question-text">25. What is a cycle according to the lecture 8 glossary?</div><div class="answer">→ A path with at least one edge whose first and last vertices are the same</div></div>
+        <div class="question"><div class="question-text">26. What does DFS do when the current node has an unvisited neighbor?</div><div class="answer">→ It visits that neighbor and makes it the new current node</div></div>
+        <div class="question"><div class="question-text">27. Which comparison between divide and conquer and dynamic programming is correct according to the lecture 10?</div><div class="answer">→ Divide and conquer has independent subproblems, while DP has subproblems that are not independent</div></div>
+        <div class="question"><div class="question-text">28. What is the main approach used by dynamic programming to avoid repeated subproblem computation?</div><div class="answer">→ Store the result of a subproblem the first time it is computed</div></div>
+        <div class="question"><div class="question-text">29. Why might dynamic programming initially look similar to divide and conquer?</div><div class="answer">→ Both involve breaking a problem into smaller subproblems</div></div>
+        <div class="question"><div class="question-text">30. What additional step is needed when adding an edge in an undirected graph according to lecture 8 example?</div><div class="answer">→ Add A to the adjacency list of B so the connection works both ways</div></div>
+        <div class="question"><div class="question-text">31. What distinguishes a directed edge from an undirected edge?</div><div class="answer">→ A directed edge has an orientation from one vertex to another</div></div>
+        <div class="question"><div class="question-text">32. What must be done to create an edge from vertex A to vertex B?</div><div class="answer">→ Add vertex B to the adjacency list of vertex A</div></div>
+        <div class="question"><div class="question-text">33. What is the main goal of both DFS and BFS in an undirected graph, according to the lecture 9?</div><div class="answer">→ To visit every node systematically exactly once</div></div>
+        <div class="question"><div class="question-text">34. Which type of graph is used in the lecture 8 to model a street map with one-way streets?</div><div class="answer">→ Directed graph</div></div>
+        <div class="question"><div class="question-text">35. What is memoization?</div><div class="answer">→ Saving computed results in a table for later use</div></div>
+        <div class="question"><div class="question-text">36. What is the first step of BFS according to the lecture 9?</div><div class="answer">→ Select an unvisited node, visit it, and make it the root of a BFS tree</div></div>
+        <div class="question"><div class="question-text">37. For what type of problems is dynamic programming generally used?</div><div class="answer">→ Optimization problems</div></div>
+        <div class="question"><div class="question-text">38. What is an adjacency list for vertex i?</div><div class="answer">→ A linear list of vertices adjacent from vertex i</div></div>
+        <div class="question"><div class="question-text">39. How is the weight of a path calculated?</div><div class="answer">→ By summing the weights of the path's edges</div></div>
+        <div class="question"><div class="question-text">40. In the 10 lecture's example, why is computing fib(5) inefficient using plain recursion?</div><div class="answer">→ Because fib(2) may be computed multiple times</div></div>
+    </div>
+
+    <div class="footer">
+        <p>📌 <strong>Советы для подготовки:</strong></p>
+        <p>• Используйте активное припоминание: закройте ответы и попробуйте ответить сами</p>
+        <p>• Группируйте вопросы по темам для систематического повторения</p>
+        <p>• Обратите внимание на повторяющиеся концепции: Base case, Stack overflow, O(N) vs O(1), peek()</p>
+        <p style="margin-top:15px;"><em>Создано для подготовки к экзамену • Удачи! 🎓</em></p>
+    </div>
+</body>
+</html>
